@@ -7,8 +7,7 @@ class Game {
     this.timerValueElement = container.querySelector(".timer__value");
     this.timerDuration = 0;
     this.timerInterval = null;
-    this.currentWord = '',
-    this.reset();
+    (this.currentWord = ""), this.reset();
 
     this.registerEvents();
   }
@@ -32,7 +31,6 @@ class Game {
       this.timerInterval = null;
     }
   }
-  
 
   updateTimerDisplay() {
     this.timerValueElement.textContent = this.timerDuration;
@@ -40,7 +38,7 @@ class Game {
 
   resetTimer() {
     this.stopTimer();
-   
+
     this.timerDuration = this.currentWord.length;
     this.updateTimerDisplay();
     this.startTimer();
