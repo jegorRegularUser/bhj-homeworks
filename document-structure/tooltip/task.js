@@ -1,12 +1,8 @@
 const hasTooltipElements = document.querySelectorAll('.has-tooltip');
 let currentTooltip = null;
 
-hasTooltipElements.forEach(element => {
-  element.addEventListener('click', showTooltip);
-});
-
-const showTooltip = (event) => {
-  event.preventDefault();
+const showTooltip = e => {
+  e.preventDefault();
 
   if (currentTooltip) {
     currentTooltip.classList.remove('tooltip_active');
@@ -14,9 +10,9 @@ const showTooltip = (event) => {
 
   const tooltip = document.createElement('div');
   tooltip.classList.add('tooltip');
-  tooltip.textContent = event.target.title;
+  tooltip.textContent = e.target.title;
 
-  const rect = event.target.getBoundingClientRect();
+  const rect = e.target.getBoundingClientRect();
   tooltip.style.left = `${rect.left}px`;
   tooltip.style.top =`${rect.bottom + 10}px`;
 
@@ -25,3 +21,7 @@ const showTooltip = (event) => {
 
   currentTooltip = tooltip;
 };
+
+hasTooltipElements.forEach(el => {
+  el.addEventListener('click', showTooltip);
+});

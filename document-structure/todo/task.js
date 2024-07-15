@@ -12,52 +12,40 @@ const addTask = () => {
   }
 };
 
-const removeTask = (e) => {
-  const taskElement = e.target.closest(".task");
-  taskElement.remove();
+const removeTask = e => {
+  e.target.closest(".task").remove();
   saveTasks();
 };
 
 const saveTasks = () => {
-  const tasks = Array.from(tasksList.children).map(
-    (task) => task.firstChild.textContent
+  const tasks = [...tasksList.children].map(
+    task => task.firstElementChild.textContent
   );
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
 const loadTasks = () => {
-  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  tasks.forEach((task) => {
+  const tasks = JSON.parse(localStorage.getItem("tasks"));
+  tasks.forEach(task => {
     const taskElement = createTaskElement(task);
     tasksList.appendChild(taskElement);
   });
 };
 
-const createTaskElement = (taskText) => {
+const createTaskElement = taskText => {
   const taskElement = document.createElement("div");
   taskElement.className = "task";
-
-  const taskTitleElement = document.createElement("div");
-  taskTitleElement.className = "task__title";
-  taskTitleElement.textContent = taskText;
-
-  const removeTaskButton = document.createElement("a");
-  removeTaskButton.href = "#";
-  removeTaskButton.className = "task__remove";
-  removeTaskButton.textContent = "×";
-  removeTaskButton.addEventListener("click", removeTask);
-
-  taskElement.appendChild(taskTitleElement);
-  taskElement.appendChild(removeTaskButton);
-
+  taskElement.innerHTML = `
+    <div class="task__title">${taskText}</div>
+    <a href="#" class="task__remove">&times;</a>
+  `;
+  taskElement
+    .querySelector(".task__remove")
+    .addEventListener("click", removeTask);
   return taskElement;
 };
 
 addTaskButton.addEventListener("click", addTask);
-taskInput.addEventListener("keyup", (e) => {
-  if (e.key === "Enter") {
-    addTask();
-  }
-});
+tasksList.addEventListener("click", removeTask);
 
 window.onload = loadTasks;
