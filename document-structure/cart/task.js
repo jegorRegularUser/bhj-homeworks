@@ -33,11 +33,10 @@ addToCartButtons.forEach(btn => {
     const productInCart = cartProducts.find(cartProduct => cartProduct.dataset.id === productId);
     if (productInCart) {
       const cartProductCountElement = productInCart.querySelector(".cart__product-count");
-      const currentCount = parseInt(cartProductCountElement.textContent);
+      const currentCount = +cartProductCountElement.textContent;
       cartProductCountElement.textContent = currentCount + quantity;
     } else {
-      const productImageElement = product.querySelector(".product__image");
-      const productImage = productImageElement ? productImageElement.src : "";
+      const productImage =  product.querySelector(".product__image").src || "";
 
       cartProductsContainer.innerHTML += `
         <div class="cart__product" data-id="${productId}">
